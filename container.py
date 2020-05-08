@@ -6,8 +6,11 @@ from PyQt5.QtWidgets import QGroupBox, QGridLayout, QPushButton, QTabWidget
 
 class Container(QTabWidget):
 
-    def setupContainer(self):
+    def __init__(self, parent=None):
+        super().__init__(parent=None)
         self.mapLayout = QtWidgets.QGridLayout(self.centralwidget)
+
+    def setupContainer(self):
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tab = QtWidgets.QWidget()
         self.photoListLayout = QtWidgets.QGridLayout(self.tab)

@@ -1,20 +1,17 @@
-from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QMainWindow, QHBoxLayout, QGroupBox, \
     QGridLayout
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtCore import QUrl, pyqtSlot
+from PyQt5.QtCore import QUrl
+from PyQt5 import QtCore
 import sys
 
 from Ui_Window import Ui_Window
-from photo import Photo
 
 
-class MainWindow(QMainWindow, Ui_Window):
+class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.gridButton = QPushButton('Grid', self)
-        self.mapButton = QPushButton('Map', self)
 
         self.create_window_view()
 
@@ -22,16 +19,21 @@ class MainWindow(QMainWindow, Ui_Window):
         initLayout = QGridLayout()
 
         self.create_navigation()
+        self.create_header()
         self.create_container()
 
-        initLayout.addWidget(self.navigation, 0, 0)
-        initLayout.addWidget(self.container, 0, 1, 0, 4)
+        initLayout.addWidget(self.navigation, 1, 1, 8, 1)
+        initLayout.addWidget(self.header, 1, 2, 1, 7)
+        initLayout.addWidget(self.container, 2, 2, 7, 7)
+        # for i in range(1, 5):
+        #     for j in range(1, 5):
+        #         initLayout.addWidget(QPushButton("B" + str(i) + str(j)), i, j)
 
         initWidget = QWidget(self)
         initWidget.setLayout(initLayout)
 
         w = 1280
-        h = 800
+        h = 700
         self.setWindowTitle("Photo Manager")
         self.setCentralWidget(initWidget)
         self.resize(w, h)
@@ -40,53 +42,41 @@ class MainWindow(QMainWindow, Ui_Window):
         self.navigation = QGroupBox()
 
         navigationLayout = QVBoxLayout()
-        navigationLayout.addWidget(QPushButton('Library'))
-        navigationLayout.addWidget(QPushButton('Timeline'))
+        navigationLayout.addWidget(QPushButton('Library'), alignment=QtCore.Qt.AlignTop)
+        navigationLayout.addWidget(QPushButton('Timeline'), alignment=QtCore.Qt.AlignTop)
+        navigationLayout.addWidget(QPushButton('Timeline2'), alignment=QtCore.Qt.AlignTop)
 
         self.navigation.setLayout(navigationLayout)
 
-    def create_container(self):
+    def create_header(self):
+        self.gridButton = QPushButton('Grid', self)
+        self.mapButton = QPushButton('Map', self)
 
-        self.gridButton.setDefault(True)
-
-        self.gridButton.clicked.connect(self.create_container)
-        self.mapButton.clicked.connect(self.create_container)
+        self.gridButton.clicked.connect(self.btnGridstate)
+        self.mapButton.clicked.connect(self.btnMapstate)
 
         headerLayout = QHBoxLayout()
-        headerLayout.addWidget(self.gridButton)
-        headerLayout.addWidget(self.mapButton)
-        header = QWidget()
-        header.setLayout(headerLayout)
+        headerLayout.addWidget(self.gridButton, alignment=QtCore.Qt.AlignVCenter)
+        headerLayout.addWidget(self.mapButton, alignment=QtCore.Qt.AlignVCenter)
+        self.header = QGroupBox()
+        self.header.setLayout(headerLayout)
 
-        # self.view = QWebEngineView()
-        # self.view.load(QUrl("https://api06.dev.openstreetmap.org"))
+    def create_container(self):
+        self.view = QWebEngineView()
+        self.view.load(QUrl("https://api06.dev.openstreetmap.org"))
 
-        self.container = QGroupBox()
         containerLayout = QGridLayout()
-        containerLayout.addWidget(header, 0, 0)
-        containerLayout.addWidget(MainWindow.btnState(self), 1, 0, 16, 0)
-
+        containerLayout.addWidget(self.view)
+        self.container = QGroupBox()
         self.container.setLayout(containerLayout)
 
-    def btnState(self):
-        if self.mapButton.isChecked():
-            print('show mapButton')
-            return self.show_photos_in_map()
-        else:
-            print('show gridButton')
-            return self.show_photos_list()
+    def btnGridstate(self):
+        print('show gridbutton')
+        self.view.load(QUrl("https://api06.dev.openstreetmap.org"))
 
-    def show_photos_list(self):
-        print('show photos')
-
-    def show_photos_in_map(self):
-        print('show map')
-        mapView = QWebEngineView()
-        # mapView.load(QUrl("https://api06.dev.openstreetmap.org"))
-        mapView.load(QUrl("https://www.openstreetmap.org/relation/3486449"))
-
-      # exif_data = Photo.get_image_meta_info('img/IMG_7228.JPG')
-        return mapView
+    def btnMapstate(self):
+        print('show mapButton')
+        self.view.load(QUrl("https://www.openstreetmap.org/relation/3486449"))
 
 
 if __name__ == '__main__':
