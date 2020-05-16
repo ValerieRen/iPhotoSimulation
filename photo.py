@@ -1,11 +1,9 @@
 from PIL import Image
 from PIL.ExifTags import TAGS, GPSTAGS
 from PyQt5.QtWidgets import QWidget
+import os
 
-
-class Photo(QWidget):
-    def __init__(self):
-        super(Photo, self).__init__()
+class Photo:
 
     def get_image_meta_info(self, filename):
         exif_data = {}
@@ -66,4 +64,15 @@ class Photo(QWidget):
         s = float(s0) / float(s1)
 
         return d + (m / 60.0) + (s / 3600.0)
+
+    def get_photo_by_date(self):
+        photo_list = list()
+
+        for file in os.listdir("img"):
+            file_name = os.path.join("img", file)
+            cur_photo_exif_data = self.get_image_meta_info(file_name)
+            photo_list.append({"file": file_name, "exif": cur_photo_exif_data})
+
+        photo_list = sorted(photo_list, key=lambda x: x.get("exif").get("DateTimeOriginal"), reverse=False)
+        return photo_list
 
