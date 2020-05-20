@@ -65,7 +65,7 @@ class Photo:
 
         return d + (m / 60.0) + (s / 3600.0)
 
-    def get_photo_by_date(self):
+    def get_sorted_photo_by_date(self):
         photo_list = list()
 
         for file in os.listdir("img"):
@@ -76,3 +76,16 @@ class Photo:
         photo_list = sorted(photo_list, key=lambda x: x.get("exif").get("DateTimeOriginal"), reverse=False)
         return photo_list
 
+    def show_sorted_photo_in_list(self):
+        list_by_photo = list()
+        list_by_date = list()
+
+        # parse images
+        for file in os.listdir("img"):
+            file_name = os.path.join("img", file)
+            cur_photo_exif_data = self.get_image_meta_info(file_name)
+            list_by_photo.append({"file": file_name, "exif": cur_photo_exif_data})
+
+        # sort photo by date
+        for p in len(list_by_photo)):
+            list_by_photo[x].get("exif").get("DateTimeOriginal")

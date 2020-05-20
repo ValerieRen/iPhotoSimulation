@@ -14,7 +14,7 @@ class PhotoContainer(QWidget):
         self.layout = QGridLayout()
         self.handlePhotos = photo.Photo()
 
-        sortedPhotoList = self.handlePhotos.get_photo_by_date()
+        sortedPhotoList = self.handlePhotos.get_sorted_photo_by_date()
         self.display_photos_in_grid(sortedPhotoList, geometry)
         self.setLayout(self.layout)
 
@@ -23,8 +23,8 @@ class PhotoContainer(QWidget):
         width = geometry.width() / number_of_img_per_row
         row = 0
         col = 0
-        print(geometry.width())
-        print(width)
+        # print(geometry.width())
+        # print(width)
 
         for x in range(0, len(list)):
             if (row == number_of_img_per_row):
