@@ -1,7 +1,6 @@
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
-from PyQt5 import QtCore
 import sys
 
 class MapContainer(QtWidgets.QWidget):

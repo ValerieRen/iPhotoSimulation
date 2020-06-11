@@ -87,5 +87,5 @@ class Photo:
             list_by_photo.append({"file": file_name, "exif": cur_photo_exif_data})
 
         # sort photo by date
-        for p in len(list_by_photo)):
+        for p in len(list_by_photo):
             list_by_photo[x].get("exif").get("DateTimeOriginal")

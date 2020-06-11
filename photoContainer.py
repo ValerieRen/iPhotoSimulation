@@ -6,7 +6,7 @@ import sys
 import photo
 
 class PhotoContainer(QWidget):
-`
+
     def __init__(self, geometry):
         QWidget.__init__(self)
         self.setWindowTitle('Photo Window')
@@ -16,15 +16,14 @@ class PhotoContainer(QWidget):
 
         sortedPhotoList = self.handlePhotos.get_sorted_photo_by_date()
         self.display_photos_in_grid(sortedPhotoList, geometry)
+        self.setContentsMargins(20, 0, 20, 0)
         self.setLayout(self.layout)
 
     def display_photos_in_grid(self, list, geometry):
-        number_of_img_per_row = 4
-        width = geometry.width() / number_of_img_per_row
+        number_of_img_per_row = 5
+        # width = geometry.width() / number_of_img_per_row + number_of_img_per_row * 16
         row = 0
         col = 0
-        # print(geometry.width())
-        # print(width)
 
         for x in range(0, len(list)):
             if (row == number_of_img_per_row):
@@ -32,7 +31,9 @@ class PhotoContainer(QWidget):
                 col += 1
             label = QLabel()
             pixmap = QPixmap(list[x].get("file"))
-            label.resize(width, width)
+            # label.resize(width, width)
+            label.setFixedHeight(230)
+            label.setFixedWidth(200)
             label.setPixmap(pixmap.scaled(label.size(), QtCore.Qt.KeepAspectRatio))
             row += 1
             self.layout.addWidget(label, col, row)
