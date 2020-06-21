@@ -1,12 +1,9 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QMainWindow, QHBoxLayout, QGroupBox, \
-    QGridLayout, QScrollArea, QAbstractScrollArea
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5.QtCore import QUrl, Qt, QRect
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QMainWindow, QHBoxLayout, QScrollArea, \
+    QAbstractScrollArea
 from PyQt5 import QtCore
 from mapContainer import MapContainer
-from photoContainer import PhotoContainer
+from photo.photoContainer import PhotoContainer
 import sys
-import photo
 
 
 class AppController(QMainWindow):
@@ -14,7 +11,7 @@ class AppController(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(AppController, self).__init__(*args, **kwargs)
 
-        w = 1580
+        w = 1400
         h = 900
         widget = QWidget()
         self.setWindowTitle("Photo Manager")
@@ -49,7 +46,7 @@ class AppController(QMainWindow):
         self.mainLayout.addLayout(navLayout)
         self.mainLayout.addLayout(self.panelLayout)
 
-        widgegit.setLayout(self.mainLayout)
+        widget.setLayout(self.mainLayout)
 
     def show_default(self):
         self.container = ScrollPhotoBox()
@@ -69,12 +66,13 @@ class AppController(QMainWindow):
 
 
 class ScrollPhotoBox(QScrollArea):
-   def __init__(self, parent=None):
-      super(ScrollPhotoBox, self).__init__(parent)
+    def __init__(self, parent=None):
+        super(ScrollPhotoBox, self).__init__(parent)
 
-      self.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
-      self.setWidgetResizable(True)
-      self.setWidget(PhotoContainer(self.geometry()))
+        self.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
+        self.setWidgetResizable(True)
+        # self.setBackgroundRole(QPalette.Dark)
+        self.setWidget(PhotoContainer(self.geometry()))
 
 
 if __name__ == '__main__':
